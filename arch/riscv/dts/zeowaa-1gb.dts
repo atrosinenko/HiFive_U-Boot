@@ -1,0 +1,126 @@
+/dts-v1/;
+
+/ {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        compatible = "freechips,rocketchip-unknown-dev";
+        model = "freechips,rocketchip-unknown";
+        chosen {
+        bootargs = "console=ttySIF0,125200 debug loglevel=7";
+    };
+        firmware {
+        sifive,uboot = "YYYY-MM-DD";
+    };
+    L16: aliases {
+        serial0 = &L8;
+    };
+        L15: cpus {
+                #address-cells = <1>;
+                #size-cells = <0>;
+                L5: cpu@0 {
+                        device_type = "cpu";
+                        clock-frequency = <0>;
+                        compatible = "sifive,rocket0", "riscv";
+                        d-cache-block-size = <16>;
+                        d-cache-sets = <64>;
+                        d-cache-size = <4096>;
+                        d-tlb-sets = <1>;
+                        d-tlb-size = <32>;
+                        i-cache-block-size = <16>;
+                        i-cache-sets = <64>;
+                        i-cache-size = <4096>;
+                        i-tlb-sets = <1>;
+                        i-tlb-size = <32>;
+                        mmu-type = "riscv,sv39";
+                        next-level-cache = <&L10>;
+                        reg = <0x0>;
+                        riscv,isa = "rv64imafdc";
+                        status = "okay";
+                        timebase-frequency = <1000000>;
+                        tlb-split;
+                        L3: interrupt-controller {
+                                #interrupt-cells = <1>;
+                                compatible = "riscv,cpu-intc";
+                                interrupt-controller;
+                        };
+                };
+        };
+        L10: ram@80000000 {
+                device_type = "memory";
+        reg = <0x0 0x80000000 0x0 0x40000000>;
+        reg-names = "mem";
+    };
+        L14: soc {
+                #address-cells = <1>;
+                #size-cells = <1>;
+                compatible = "freechips,rocketchip-unknown-soc", "simple-bus";
+                ranges;
+                L1: clint@2000000 {
+                        compatible = "riscv,clint0";
+                        interrupts-extended = <&L3 3 &L3 7>;
+                        reg = <0x2000000 0x10000>;
+                        reg-names = "control";
+                };
+                L2: debug-controller@0 {
+                        compatible = "sifive,debug-013", "riscv,debug-013";
+                        interrupts-extended = <&L3 65535>;
+                        reg = <0x0 0x1000>;
+                        reg-names = "control";
+                };
+                L9: gpio@64002000 {
+                        #gpio-cells = <2>;
+                        #interrupt-cells = <2>;
+                        compatible = "sifive,gpio0";
+                        gpio-controller;
+                        interrupt-controller;
+                        interrupt-parent = <&L0>;
+                        interrupts = <3 4 5 6 7 8>;
+                        reg = <0x64002000 0x1000>;
+                        reg-names = "control";
+                };
+                L0: interrupt-controller@c000000 {
+                        #interrupt-cells = <1>;
+                        compatible = "riscv,plic0";
+                        interrupt-controller;
+                        interrupts-extended = <&L3 11 &L3 9>;
+                        reg = <0xc000000 0x4000000>;
+                        reg-names = "control";
+                        riscv,max-priority = <7>;
+                        riscv,ndev = <8>;
+                };
+                L6: rom@10000 {
+                        compatible = "sifive,maskrom0";
+                        reg = <0x10000 0x2000>;
+                        reg-names = "mem";
+                };
+                L8: serial@64000000 {
+                        compatible = "sifive,uart0";
+                        interrupt-parent = <&L0>;
+                        interrupts = <2>;
+                        reg = <0x64000000 0x1000>;
+                        reg-names = "control";
+                };
+                L7: spi@64001000 {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                        compatible = "sifive,spi0";
+                        interrupt-parent = <&L0>;
+                        interrupts = <1>;
+                        reg = <0x64001000 0x1000>;
+                        reg-names = "control";
+                        L12: mmc@0 {
+                                compatible = "mmc-spi-slot";
+                                disable-wp;
+                                reg = <0x0>;
+                                spi-max-frequency = <20000000>;
+                                voltage-ranges = <3300 3300>;
+                        };
+                };
+                L11: tlclk {
+                        #clock-cells = <0>;
+                        clock-frequency = <25000000>;
+                        clock-output-names = "tlclk";
+                        compatible = "fixed-clock";
+                };
+        };
+};

@@ -1,0 +1,7 @@
+ZEOWAA A-E115FB BOARD
+M:	Anatoly Trosinenko <anatoly.trosinenko@gmail.com>
+S:	Staging
+F:	board/Zeowaa/zeowaa-1gb/
+F:	include/configs/zeowaa-1gb.h
+F:	configs/zeowaa-1gb_defconfig
+F:  arch/riscv/cpu/zeowaa-1gb

@@ -1,0 +1,18 @@
+if TARGET_ZEOWAA_1GB
+
+config SYS_CPU
+	default "zeowaa-1gb"
+
+config SYS_BOARD
+	default "zeowaa-1gb"
+
+config SYS_VENDOR
+	default "Zeowaa"
+
+config SYS_SOC
+	default "zeowaa-1gb"
+
+config SYS_CONFIG_NAME
+    default "zeowaa-1gb"
+
+endif

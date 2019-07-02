@@ -23,7 +23,7 @@ unsigned long do_go_exec(ulong (*entry)(int, char * const []),
 	*((volatile uint32_t *)(HIFIVE_HART3_MSIP)) = RAISE_SOFT_INT;
 	*((volatile uint32_t *)(HIFIVE_HART4_MSIP)) = RAISE_SOFT_INT;
 
-	asm volatile ("li a1, 0xF0000000\n\t"
+	asm volatile ("li a1, 0x801f0000\n\t"
 			"csrr a0, mhartid\n\t"
 	  "li t4, 0x80000000\n\t"
 	  "jr t4\n\t");
