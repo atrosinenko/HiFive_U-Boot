@@ -17,6 +17,7 @@
         L15: cpus {
                 #address-cells = <1>;
                 #size-cells = <0>;
+                timebase-frequency = <1000000>;
                 L5: cpu@0 {
                         device_type = "cpu";
                         clock-frequency = <0>;
@@ -96,6 +97,7 @@
                 L8: serial@64000000 {
                         compatible = "sifive,uart0";
                         interrupt-parent = <&L0>;
+                        clocks = <&tlclk>;
                         interrupts = <2>;
                         reg = <0x64000000 0x1000>;
                         reg-names = "control";
@@ -107,6 +109,7 @@
                         interrupt-parent = <&L0>;
                         interrupts = <1>;
                         reg = <0x64001000 0x1000>;
+                        clocks = <&tlclk>;
                         reg-names = "control";
                         L12: mmc@0 {
                                 compatible = "mmc-spi-slot";
@@ -116,7 +119,7 @@
                                 voltage-ranges = <3300 3300>;
                         };
                 };
-                L11: tlclk {
+                tlclk: tlclk {
                         #clock-cells = <0>;
                         clock-frequency = <25000000>;
                         clock-output-names = "tlclk";
